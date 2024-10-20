@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--+@vy1osf!a&#7*uc&q1%gz)3c+o65nfgf6a(mf+wl7fe5^vwf'
+# SECRET_KEY = 'django-insecure--+@vy1osf!a&#7*uc&q1%gz)3c+o65nfgf6a(mf+wl7fe5^vwf'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG',False).lower()== True
 
 
 # Application definition
@@ -86,8 +88,9 @@ DATABASES = {
     }
 }
 
-DATABASES['default']= dj_database_url.parse('postgresql://django_db_zdhg_user:C9BK6xlqmGsp7WlpsszGt9QUt6Tr9oLB@dpg-csaa3id6l47c73euitkg-a.singapore-postgres.render.com/django_db_zdhg')
-
+# DATABASES['default']= dj_database_url.parse('postgresql://django_db_zdhg_user:C9BK6xlqmGsp7WlpsszGt9QUt6Tr9oLB@dpg-csaa3id6l47c73euitkg-a.singapore-postgres.render.com/django_db_zdhg')
+databaseURL= os.environ.get('DATABASE_URL')
+DATABASES['default']=dj_database_url.parse(databaseURL)
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
